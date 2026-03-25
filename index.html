@@ -3,265 +3,377 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Analyse Performance SEO - Pièces Manitou</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <title>Manitou Spare Parts | SEO Digital Experience</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <style>
         :root {
-            --manitou-red: #e30613;
-            --charcoal: #222222;
-            --soft-grey: #f4f4f4;
-            --status-green: #27ae60;
+            --neon-red: #ff1e2c; /* Rouge Manitou électrique */
+            --dark-bg: #0a0a0c; /* Fond très sombre */
+            --panel-bg: rgba(20, 20, 25, 0.6); /* Transparence vitreuse */
+            --text-main: #e0e0e0;
+            --text-muted: #888888;
+            --cyber-cyan: #00ffff;
         }
 
         body {
-            font-family: 'Open Sans', sans-serif;
+            font-family: 'Rajdhani', sans-serif;
             margin: 0;
-            background-color: var(--soft-grey);
-            color: var(--charcoal);
-            line-height: 1.6;
+            background-color: var(--dark-bg);
+            color: var(--text-main);
+            overflow-x: hidden;
+            font-weight: 300;
         }
 
+        h1, h2, h3 { font-family: 'Orbitron', sans-serif; text-transform: uppercase; letter-spacing: 2px; }
+        b, strong { font-weight: 700; color: var(--neon-red); }
+
+        /* --- UI ELEMENTS --- */
+        .glass {
+            background: var(--panel-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+
+        .cyber-button {
+            display: inline-block;
+            padding: 10px 20px;
+            border: 1px solid var(--neon-red);
+            color: var(--neon-red);
+            text-decoration: none;
+            text-transform: uppercase;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+            background: transparent;
+            cursor: pointer;
+        }
+        .cyber-button:hover { background: var(--neon-red); color: white; box-shadow: 0 0 15px var(--neon-red); }
+
+        /* --- HEADER & HERO --- */
         header {
-            padding: 20px 5%;
-            background: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 4px solid var(--manitou-red);
-            position: sticky;
-            top: 0;
+            position: fixed; top: 0; width: 100%; padding: 15px 5%;
+            display: flex; justify-content: space-between; align-items: center;
             z-index: 1000;
+            background: rgba(10, 10, 12, 0.9);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
         }
-
-        .logo-text {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 700;
-            font-size: 1.2rem;
-            color: var(--manitou-red);
-        }
+        .logo-area { display: flex; align-items: center; gap: 10px; }
+        .logo-rect { width: 15px; height: 15px; background: var(--neon-red); box-shadow: 0 0 10px var(--neon-red); }
+        .logo-text { font-family: 'Orbitron', sans-serif; color: white; font-weight: 700; }
 
         .hero {
-            padding: 60px 10%;
-            text-align: center;
-            background: var(--charcoal);
-            color: white;
+            height: 80vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; padding: 0 10%; margin-top: 60px;
+            position: relative;
         }
+        .hero h1 { font-size: 3.5rem; color: white; text-shadow: 0 0 20px var(--neon-red); margin-bottom: 10px; }
+        .hero p { font-size: 1.4rem; color: var(--text-muted); max-width: 700px; }
+        .scroll-down { position: absolute; bottom: 30px; font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; }
 
-        .hero h1 {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 2.2rem;
-            margin-bottom: 20px;
-        }
+        /* --- LAYOUT & SECTIONS --- */
+        .container { width: 90%; max-width: 1400px; margin: 0 auto; padding: 60px 0; }
+        
+        section { opacity: 0; transform: translateY(50px); } /* Initial state for animations */
 
-        .container {
-            width: 95%;
-            max-width: 1300px;
-            margin: 40px auto;
-        }
+        .section-title { text-align: center; margin-bottom: 80px; }
+        .section-title h2 { font-size: 2.2rem; color: white; position: relative; display: inline-block; }
+        .section-title h2::after { content:''; position: absolute; bottom: -10px; left: 0; width: 100%; height: 2px; background: var(--neon-red); box-shadow: 0 0 10px var(--neon-red); }
 
-        /* Graphique Section */
-        .chart-container {
-            background: white;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            margin-bottom: 50px;
-        }
+        /* --- GLOBAL DASHBOARD --- */
+        .dashboard-global { display: grid; grid-template-columns: 2fr 1fr; gap: 40px; margin-bottom: 100px; }
+        
+        .chart-main { padding: 40px; }
+        
+        .kpi-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+        .kpi-card { padding: 25px; text-align: center; transition: 0.3s; }
+        .kpi-card:hover { border-color: var(--neon-red); box-shadow: 0 0 20px rgba(255,30,44,0.2); }
+        .kpi-value { font-size: 3rem; font-weight: 700; color: white; display: block; line-height: 1; }
+        .kpi-label { font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase; }
+        .kpi-delta { font-size: 0.8rem; font-weight: 600; }
+        .up { color: var(--cyber-cyan); }
+        .down { color: var(--neon-red); }
 
-        .chart-container h2 {
-            text-align: center;
-            margin-bottom: 30px;
-            color: var(--charcoal);
-        }
+        /* --- DEEP DIVE SECTIONS --- */
+        .deep-dive { display: grid; grid-template-columns: 1.5fr 1fr; gap: 50px; margin-bottom: 120px; align-items: start; }
+        
+        .analysis-panel { padding: 40px; }
+        .analysis-panel h3 { color: white; border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding-bottom: 10px; margin-bottom: 20px; }
+        .analysis-text { font-size: 1.05rem; line-height: 1.7; color: rgba(224, 224, 224, 0.8); }
+        .analysis-text ul { padding-left: 20px; margin-top: 15px; }
+        .analysis-text li { margin-bottom: 10px; }
+        
+        .metrics-panel { padding: 40px; text-align: center; display: flex; flex-direction: column; gap: 30px; position: sticky; top: 100px; }
+        .mini-stat { border-bottom: 1px solid rgba(255, 255, 255, 0.03); padding-bottom: 15px; }
+        .mini-stat-value { font-size: 2.2rem; font-weight: 700; color: white; display: block; }
+        .mini-stat-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; }
+        .status-light { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 5px; }
+        .status-ok { background: var(--cyber-cyan); box-shadow: 0 0 10px var(--cyber-cyan); }
+        .status-alert { background: var(--neon-red); box-shadow: 0 0 10px var(--neon-red); }
 
-        /* Page Section Style */
-        .page-section {
-            background: white;
-            margin-bottom: 50px;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            display: flex;
-            flex-wrap: wrap;
-            transition: transform 0.3s ease;
-        }
+        /* --- CONCLUSION --- */
+        .conclusion { text-align: center; max-width: 800px; margin: 0 auto; padding: 60px; }
+        .conclusion h2 { color: white; }
 
-        .page-section:hover {
-            transform: translateY(-5px);
-        }
+        footer { text-align: center; padding: 50px; border-top: 1px solid rgba(255, 255, 255, 0.03); color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; }
 
-        .page-analysis {
-            padding: 45px;
-            flex: 2;
-            min-width: 350px;
-        }
-
-        .page-metrics {
-            padding: 45px;
-            background: #fafafa;
-            flex: 1;
-            min-width: 300px;
-            border-left: 1px solid #eee;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            text-align: center;
-        }
-
-        h2 {
-            color: var(--manitou-red);
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.6rem;
-            margin-top: 0;
-            margin-bottom: 25px;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 10px;
-        }
-
-        .highlight-box {
-            background: #fff5f5;
-            border-left: 4px solid var(--manitou-red);
-            padding: 15px;
-            margin-top: 20px;
-            font-weight: 600;
-            color: var(--manitou-red);
-        }
-
-        .stat-number {
-            font-size: 3.5rem;
-            font-weight: 700;
-            color: var(--status-green);
-            display: block;
-        }
-
-        .stat-label {
-            font-size: 1rem;
-            font-weight: 600;
-            color: #666;
-            text-transform: uppercase;
-        }
-
-        footer {
-            text-align: center;
-            padding: 50px;
-            background: var(--charcoal);
-            color: white;
-        }
-
-        @media (max-width: 768px) {
-            .page-metrics { border-left: none; border-top: 1px solid #eee; }
+        /* --- RESPONSIVE --- */
+        @media (max-width: 1024px) {
+            .deep-dive, .dashboard-global { grid-template-columns: 1fr; }
+            .metrics-panel { position: static; }
+            .hero h1 { font-size: 2.5rem; }
         }
     </style>
 </head>
 <body>
 
 <header>
-    <div class="logo-text">MANITOU | Expertise Digitale Pièces de Rechange</div>
-    <div style="font-weight: 600;">Bilan SEO : Déc. 2025 - Mars 2026</div>
+    <div class="logo-area">
+        <div class="logo-rect"></div>
+        <div class="logo-text">MANITOU SPARE PARTS</div>
+    </div>
+    <div style="font-size: 0.8rem; color: var(--text-muted);">SEO DATA EXPERIENCE | DÉC 25 - MARS 26</div>
 </header>
 
-<section class="hero">
-    <h1>Analyse de l'accompagnement client par l'information</h1>
-    <p>Évolution de la visibilité des conseils d'entretien et de la valorisation des pièces d'origine.</p>
+<section class="hero" id="hero">
+    <p style="text-transform: uppercase; color: var(--neon-red); letter-spacing: 3px;">Rapport de Performance Digitale</p>
+    <h1>VALORISER L'ORIGINE PAR L'INFORMATION</h1>
+    <p>Une plongée immersive dans l'impact de nos stratégies SEO sur l'acculturation technique de nos possesseurs de machines.</p>
+    <div class="scroll-down">Scrollez pour initier l'expérience ↓</div>
 </section>
 
 <div class="container">
 
-    <div class="chart-container">
-        <h2>Évolution du Volume d'Utilisateurs (Déc. vs Mars)</h2>
-        <canvas id="seoChart" style="max-height: 400px;"></canvas>
+    <section class="dashboard-global glass" id="global">
+        <div class="chart-main">
+            <h3>Vue d'ensemble : Volume d'utilisateurs organiques</h3>
+            <canvas id="mainChart" style="max-height: 400px;"></canvas>
+        </div>
+        <div class="kpi-grid">
+            <div class="kpi-card glass">
+                <span class="kpi-label">Sessions Globales (Mars)</span>
+                <span class="kpi-value">684</span>
+                <span class="kpi-delta up">+38% vs Déc.</span>
+            </div>
+            <div class="kpi-card glass">
+                <span class="kpi-label">Taux d'engagement moyen</span>
+                <span class="kpi-value">71,8%</span>
+                <span class="kpi-delta">Qualité confirmée</span>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-title">
+        <h2>Deep Dive : Analyse détaillée par page</h2>
     </div>
 
-    <div class="page-section">
-        <div class="page-analysis">
-            <h2>Page mère pièces de rechange</h2>
-            <p>Pivot central de notre visibilité, l'optimisation a transformé une audience locale en un <strong>rayonnement mondial</strong>. Le fait marquant est le basculement géographique : en mars, les <strong>États-Unis</strong> sont devenus notre première source de visiteurs (246 utilisateurs).</p>
-            <div class="highlight-box">Impact IA : Nos contenus sont désormais cités comme sources par ChatGPT et les nouveaux moteurs d'IA.</div>
+    <section class="deep-dive" id="page-mere">
+        <div class="analysis-panel glass">
+            <h3>Page mère pièces de rechange</h3>
+            <div class="analysis-text">
+                <p>C’est le pivot central de la visibilité de l'offre. L'optimisation sémantique menée a eu pour mission de transformer cette page d'une entrée locale en un <strong>rayonnement mondial</strong>. Nous ne nous adressons plus seulement à la France, mais au parc Manitou global.</p>
+                <p>Le fait marquant de ce trimestre est le basculement géographique : en mars, les <strong>États-Unis</strong> sont devenus le premier bassin de visiteurs (246 utilisateurs), validant l'adéquation de notre contenu informatif avec les attentes nord-américaines.</p>
+                <p><strong>Impact IA Search (GEO) :</strong> Nos contenus sont désormais perçus comme des sources d'autorité technique, indexés et cités par ChatGPT et les nouveaux moteurs d'IA conversationnelle.</p>
+            </div>
         </div>
-        <div class="page-metrics">
-            <span class="stat-label">Progression Visites</span>
-            <span class="stat-number">+45,8%</span>
-            <p>Passage de 371 à 541 sessions mensuelles</p>
+        <div class="metrics-panel glass">
+            <div class="mini-stat">
+                <span class="status-light status-ok"></span>
+                <span class="mini-stat-label">Statut Visibilité</span>
+            </div>
+            <div class="mini-stat">
+                <span class="mini-stat-value">541</span>
+                <span class="mini-stat-label">Sessions Organiques (Mars)</span>
+            </div>
+            <div class="mini-stat">
+                <span class="mini-stat-value">+45,8%</span>
+                <span class="mini-stat-label">Croissance vs Décembre</span>
+            </div>
+            <canvas id="mereChart" style="max-height: 150px;"></canvas>
         </div>
+    </section>
+
+    <section class="deep-dive" id="maintenance">
+        <div class="analysis-panel glass">
+            <h3>Page entretien et maintenance</h3>
+            <div class="analysis-text">
+                <p>Réouverte fin 2025, cette page n'est pas qu'une vitrine : c'est un **outil d'aide au diagnostic** et à la planification pour le possesseur de machine. Elle incarne le service Manitou après-vente.</p>
+                <p>L'analyse comportementale montre une <strong>consultation profonde</strong>. Ce n'est pas du "clic" rapide : en France, un propriétaire passe en moyenne **plus de 10 minutes** sur cette page. Ils lisent, étudient les tableaux de périodicité et les guides techniques.</p>
+                <p>Nous touchons directement l'utilisateur en situation de besoin de conseil.</p>
+            </div>
+        </div>
+        <div class="metrics-panel glass">
+            <div class="mini-stat">
+                <span class="status-light status-ok"></span>
+                <span class="mini-stat-label">Statut Engagement</span>
+            </div>
+            <div class="mini-stat">
+                <span class="mini-stat-value">03:53</span>
+                <span class="mini-stat-label">Durée moy. Session</span>
+            </div>
+            <div class="mini-stat">
+                <span class="mini-stat-value">78,4%</span>
+                <span class="mini-stat-label">Taux d'intérêt (Engagement)</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="deep-dive" id="reman">
+        <div class="analysis-panel glass">
+            <h3>Page REMAN</h3>
+            <div class="analysis-text">
+                <p>Cette page porte notre message stratégique sur l'**économie circulaire** et l'échange standard. L'objectif est la pédagogie : expliquer au client final comment donner une seconde vie à sa machine de manière fiable et économique.</p>
+                <p>C’est la plus forte progression du trimestre. L'intérêt a explosé avec une audience qui a **plus que doublé** en 4 mois. Plus marquant encore : les propriétaires restent désormais **7 fois plus longtemps** qu'en décembre pour assimiler nos conseils.</p>
+            </div>
+        </div>
+        <div class="metrics-panel glass">
+            <div class="mini-stat">
+                <span class="status-light status-ok"></span>
+                <span class="mini-stat-label">Statut Pédagogie</span>
+            </div>
+            <div class="mini-stat">
+                <span class="mini-stat-value">+112%</span>
+                <span class="mini-stat-label">Hausse Utilisateurs (4 mois)</span>
+            </div>
+            <div class="mini-stat">
+                <span class="mini-stat-value">05:10</span>
+                <span class="mini-stat-label">Durée moy. Session (Mars)</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="deep-dive" id="batterie">
+        <div class="analysis-panel glass">
+            <h3>Page batteries et électricité</h3>
+            <div class="analysis-text">
+                <p>Cette section s'adresse au client en situation d'urgence ou de maintenance préventive. Elle met en avant la fiabilité électrique comme gage de sécurité et de productivité.</p>
+                <p>Le point technique clé est l’usage du **mobile (50% du trafic)**. Le client nous consulte "au pied de la machine" pour identifier une référence ou un conseil de branchement. Nous identifions un conflit d'indexation avec la version Niger qui capte actuellement notre audience française, mais le potentiel de conseil de proximité reste intact.</p>
+            </div>
+        </div>
+        <div class="metrics-panel glass">
+            <div class="mini-stat">
+                <span class="status-light status-alert"></span>
+                <span class="mini-stat-label">Point de Vigilance Technique</span>
+            </div>
+            <div class="mini-stat">
+                <span class="mini-stat-value">50%</span>
+                <span class="mini-stat-label">Part de Trafic Mobile</span>
+            </div>
+            <div class="mini-stat">
+                <span class="mini-stat-value">45%</span>
+                <span class="mini-stat-label">Engagement (Mars)</span>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-title">
+        <h2>Conclusion & Roadmap Stratégique</h2>
     </div>
 
-    <div class="page-section">
-        <div class="page-analysis">
-            <h2>Page entretien et maintenance</h2>
-            <p>Réouverte fin 2025, cette page est un outil d'aide au diagnostic pour le client final. La consultation est <strong>profonde</strong> : en France, un propriétaire passe en moyenne plus de 10 minutes sur cette page pour lire nos préconisations techniques.</p>
-            <div class="highlight-box">Engagement : 78% des visiteurs effectuent une action positive (lecture complète ou clic technique).</div>
-        </div>
-        <div class="page-metrics">
-            <span class="stat-label">Taux d'engagement</span>
-            <span class="stat-number">78%</span>
-            <p>Moyenne constante sur le trimestre</p>
-        </div>
-    </div>
-
-    <div class="page-section">
-        <div class="page-analysis">
-            <h2>Page REMAN</h2>
-            <p>Cette page porte notre message sur l'économie circulaire. L'intérêt pour le reconditionné Manitou a <strong>plus que doublé</strong> en 4 mois. La pédagogie sur l'échange standard est désormais bien ancrée auprès des possesseurs de machines.</p>
-            <div class="highlight-box">Temps de lecture : Multiplié par 7 depuis le lancement des optimisations.</div>
-        </div>
-        <div class="page-metrics">
-            <span class="stat-label">Hausse Utilisateurs</span>
-            <span class="stat-number">+112%</span>
-            <p>Soit 17 visiteurs qualifiés contre 8 en Décembre</p>
-        </div>
-    </div>
-
-    <div class="page-section">
-        <div class="page-analysis">
-            <h2>Page batteries et électricité</h2>
-            <p>Section critique pour le client en situation de besoin immédiat. Le point clé est l'usage du **mobile (50% du trafic)** : le client nous consulte souvent "au pied de la machine". Une correction d'indexation est en cours pour le marché France.</p>
-            <div class="highlight-box">Opportunité : Correction technique sur l'indexation France pour stabiliser l'audience locale.</div>
-        </div>
-        <div class="page-metrics">
-            <span class="stat-label">Part Mobile</span>
-            <span class="stat-number">50%</span>
-            <p>Un propriétaire sur deux consulte via smartphone</p>
-        </div>
-    </div>
+    <section class="conclusion glass" id="conclusion">
+        <p>Les optimisations SEO transforment nos pages Pièces en un véritable support d'information technique mondial.</p>
+        <p><strong>Nos deux priorités d'action immédiates :</strong><br>
+        1. Transformer cet engagement client en contacts concessionnaires via des CTA (Call-to-Action) mieux placés.<br>
+        2. Restaurer la visibilité de nos conseils en France en corrigeant le conflit technique d'indexation avec le Niger.</p>
+        <br>
+        <button class="cyber-button" onclick="gsap.to(window, {duration: 2, scrollTo: 0});">Retour en haut</button>
+    </section>
 
 </div>
 
 <footer>
-    Document de travail interne - Manitou Group - Direction Marketing - Mars 2026
+    © 2026 Manitou Group - Direction Marketing - Document de travail interne confidentiel
 </footer>
 
 <script>
-    const ctx = document.getElementById('seoChart').getContext('2d');
-    new Chart(ctx, {
+    // --- GSAP & SCROLLTRIGGER SETUP ---
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Fade-in animation pour chaque section au scroll
+    gsap.utils.toArray('section').forEach(section => {
+        gsap.to(section, {
+            scrollTrigger: {
+                trigger: section,
+                start: 'top 85%', // L'animation se déclenche quand le haut de la section arrive à 85% de l'écran
+                toggleActions: 'play none none none', // Se joue une seule fois
+            },
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            ease: 'power3.out'
+        });
+    });
+
+    // --- CHART.JS CONFIGURATIONS ---
+    
+    // Configuration commune pour un style sombre/futuriste
+    Chart.defaults.color = '#888';
+    Chart.defaults.font.family = "'Rajdhani', sans-serif";
+    Chart.defaults.plugins.legend.labels.color = '#e0e0e0';
+
+    // 1. Graphique Global (Déc vs Mars)
+    const ctxMain = document.getElementById('mainChart').getContext('2d');
+    new Chart(ctxMain, {
         type: 'bar',
         data: {
-            labels: ['Page Mère', 'Maintenance', 'REMAN', 'Batteries'],
+            labels: ['Mère', 'Maintenance', 'REMAN', 'Batteries'],
             datasets: [{
                 label: 'Utilisateurs Décembre 2025',
                 data: [371, 137, 8, 25],
-                backgroundColor: '#222222',
-                borderRadius: 5
+                backgroundColor: 'rgba(34, 34, 34, 0.8)', // Noir charbon
+                borderColor: '#222',
+                borderWidth: 1,
+                borderRadius: 4
             },
             {
                 label: 'Utilisateurs Mars 2026',
                 data: [541, 124, 17, 12],
-                backgroundColor: '#e30613',
-                borderRadius: 5
+                backgroundColor: 'rgba(227, 6, 19, 0.8)', // Rouge Manitou
+                borderColor: '#e30613',
+                borderWidth: 1,
+                borderRadius: 4,
+                boxShadow: '0 0 15px rgba(227,6,19,0.5)' // Effet néon (si géré par le navigateur)
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
             scales: {
-                y: { beginAtZero: true, grid: { display: false } },
+                y: { beginAtZero: true, grid: { color: 'rgba(255, 255, 255, 0.03)' } },
                 x: { grid: { display: false } }
             },
-            plugins: {
-                legend: { position: 'bottom' }
-            }
+            plugins: { legend: { position: 'bottom' } }
         }
     });
+
+    // 2. Mini Graphique Page Mère (Tendance simplifiée)
+    const ctxMere = document.getElementById('mereChart').getContext('2d');
+    new Chart(ctxMere, {
+        type: 'line',
+        data: {
+            labels: ['Déc', 'Janv', 'Févr', 'Mars'],
+            datasets: [{
+                label: 'Tendance Sessions',
+                data: [371, 410, 480, 541],
+                borderColor: '#00ffff', // Cyber Cyan
+                backgroundColor: 'rgba(0, 255, 255, 0.1)',
+                tension: 0.4,
+                fill: true,
+                pointRadius: 0
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: { y: { display: false }, x: { display: false } },
+            plugins: { legend: { display: false } }
+        }
+    });
+
 </script>
 
 </body>
