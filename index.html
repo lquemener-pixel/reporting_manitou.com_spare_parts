@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reporting SEO | Pièces de Rechange Manitou</title>
+    <title>Reporting Global SEO | Pièces de Rechange Manitou</title>
     <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -12,268 +12,245 @@
         :root {
             --manitou-red: #e30613;
             --manitou-dark: #1a1a1a;
-            --bg-light: #f8f9fa;
-            --card-shadow: 0 15px 35px rgba(0,0,0,0.08);
-            --border-radius: 25px; /* Arrondis modernes */
+            --bg-body: #f4f7f6;
+            --card-bg: #ffffff;
+            --text-grey: #555;
+            --radius: 25px;
         }
 
         body {
             font-family: 'Titillium Web', sans-serif;
             margin: 0;
-            background-color: var(--bg-light);
+            background-color: var(--bg-body);
             color: var(--manitou-dark);
-            overflow-x: hidden;
+            line-height: 1.6;
         }
 
-        /* --- HEADER & NAVIGATION --- */
         header {
             position: fixed; top: 0; width: 100%; padding: 15px 5%;
             display: flex; justify-content: space-between; align-items: center;
-            z-index: 1000; background: rgba(255, 255, 255, 0.9);
+            z-index: 1000; background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px); border-bottom: 1px solid #eee;
         }
-        .logo-text { font-weight: 700; color: var(--manitou-red); font-size: 1.2rem; text-transform: uppercase; }
 
-        /* --- HERO SECTION --- */
         .hero {
-            height: 90vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
-            text-align: center; padding: 0 10%; background: linear-gradient(135deg, #fff 0%, #f1f1f1 100%);
-            margin-bottom: 50px;
+            height: 70vh; display: flex; flex-direction: column; justify-content: center;
+            align-items: center; text-align: center; padding: 0 10%;
+            background: radial-gradient(circle at center, #ffffff 0%, #e9ecef 100%);
         }
-        .hero h1 { font-size: 3.5rem; margin-bottom: 20px; color: var(--manitou-dark); line-height: 1.1; }
+
+        .hero h1 { font-size: 3.2rem; color: var(--manitou-dark); margin-bottom: 10px; }
         .hero h1 span { color: var(--manitou-red); }
-        .hero p { font-size: 1.3rem; max-width: 800px; color: #666; }
+        .hero p { font-size: 1.2rem; color: var(--text-grey); max-width: 750px; }
 
-        .container { width: 90%; max-width: 1200px; margin: 0 auto; padding-bottom: 100px; }
+        .container { width: 90%; max-width: 1200px; margin: 0 auto; padding: 50px 0; }
 
-        /* --- STYLISED CARDS --- */
-        .card {
-            background: white; border-radius: var(--border-radius); padding: 50px;
-            box-shadow: var(--card-shadow); margin-bottom: 60px;
-            opacity: 0; transform: translateY(30px); border: 1px solid rgba(0,0,0,0.02);
+        /* --- DASHBOARD STYLING --- */
+        .page-card {
+            background: var(--card-bg); border-radius: var(--radius);
+            padding: 50px; margin-bottom: 80px; box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+            opacity: 0; transform: translateY(40px);
         }
 
-        .section-header { display: flex; align-items: center; gap: 20px; margin-bottom: 30px; }
-        .icon-circle { 
-            width: 60px; height: 60px; background: var(--manitou-red); 
-            border-radius: 20px; display: flex; justify-content: center; 
-            align-items: center; color: white; font-weight: bold; font-size: 1.5rem;
+        .page-header { border-bottom: 2px solid #f0f0f0; margin-bottom: 35px; padding-bottom: 20px; }
+        .page-header h2 { font-size: 2rem; color: var(--manitou-red); margin: 0; }
+
+        /* Evolution Table */
+        .evo-table {
+            width: 100%; border-collapse: collapse; margin-bottom: 40px;
+            background: #fafafa; border-radius: 15px; overflow: hidden;
         }
+        .evo-table th { background: #eee; padding: 15px; text-align: left; font-size: 0.9rem; text-transform: uppercase; }
+        .evo-table td { padding: 15px; border-bottom: 1px solid #eee; font-weight: 600; }
+        .delta-pos { color: #27ae60; }
+        .delta-neg { color: #e74c3c; }
 
-        h2 { font-size: 2rem; margin: 0; }
-        h3 { color: var(--manitou-red); text-transform: uppercase; font-size: 0.9rem; letter-spacing: 1px; margin-bottom: 15px; }
+        /* Content Layout */
+        .content-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; }
+        .analysis-box h3 { font-size: 1.3rem; margin-top: 0; color: #333; }
+        .analysis-box p { color: var(--text-grey); margin-bottom: 15px; }
 
-        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin: 30px 0; }
-        .stat-item { background: #fdfdfd; padding: 25px; border-radius: 20px; text-align: center; border: 1px solid #f0f0f0; }
-        .stat-value { display: block; font-size: 2.2rem; font-weight: 700; color: var(--manitou-dark); }
-        .stat-label { font-size: 0.85rem; color: #888; text-transform: uppercase; }
-        .trend-up { color: #27ae60; font-weight: bold; font-size: 0.9rem; }
-        .trend-down { color: #e74c3c; font-weight: bold; font-size: 0.9rem; }
+        .key-findings { background: #fff5f5; padding: 25px; border-radius: 20px; border-left: 5px solid var(--manitou-red); }
+        .key-findings h4 { margin: 0 0 10px 0; color: var(--manitou-red); text-transform: uppercase; font-size: 0.85rem; }
 
-        .analysis-content { display: grid; grid-template-columns: 1.5fr 1fr; gap: 40px; margin-top: 40px; }
-        .text-block p { line-height: 1.7; color: #444; margin-bottom: 15px; }
-        .chart-block { background: #f9f9f9; padding: 20px; border-radius: 20px; min-height: 250px; }
+        .chart-box { min-height: 300px; background: #fff; padding: 20px; border-radius: 20px; border: 1px solid #eee; }
 
-        /* --- HIGHLIGHT BOX --- */
-        .highlight {
-            background: rgba(227, 6, 19, 0.05); border-radius: 20px; padding: 30px;
-            border-left: 5px solid var(--manitou-red); margin: 20px 0;
-        }
+        footer { text-align: center; padding: 60px; background: white; color: #999; font-size: 0.9rem; }
 
-        /* --- FOOTER --- */
-        footer { text-align: center; padding: 60px; color: #aaa; font-size: 0.9rem; }
-
-        @media (max-width: 900px) {
-            .analysis-content { grid-template-columns: 1fr; }
-            .hero h1 { font-size: 2.2rem; }
-        }
+        @media (max-width: 900px) { .content-grid { grid-template-columns: 1fr; } .hero h1 { font-size: 2.2rem; } }
     </style>
 </head>
 <body>
 
 <header>
-    <div class="logo-text">Manitou Spare Parts</div>
-    <div style="font-weight: 400; color: #999;">Analyse Performance SEO | 2025 - 2026</div>
+    <div style="font-weight: 700; color: var(--manitou-red); font-size: 1.2rem;">MANITOU PIÈCES DE RECHANGE</div>
+    <div style="font-weight: 400; color: #666;">Bilan SEO Trimestriel</div>
 </header>
 
 <section class="hero">
-    <h1>Optimisation de la Visibilité<br><span>Pièces de Rechange</span></h1>
-    <p>Synthèse stratégique des performances des pages informationnelles Manitou.com sur les 4 derniers mois.</p>
+    <h1>Analyse d'impact <span>Post-Optimisation</span></h1>
+    <p>Reporting détaillé de la visibilité digitale et du comportement des propriétaires de machines (Décembre 2025 - Mars 2026).</p>
 </section>
 
 <div class="container">
 
-    <div class="card" id="mere">
-        <div class="section-header">
-            <div class="icon-circle">01</div>
+    <div class="page-card">
+        <div class="page-header">
             <h2>Page Mère Pièces de Rechange</h2>
         </div>
-        
-        <div class="grid-3">
-            <div class="stat-item">
-                <span class="stat-label">Utilisateurs</span>
-                <span class="stat-value">589</span>
-                <span class="trend-up">+41% vs Déc.</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-label">Sessions</span>
-                <span class="stat-value">644</span>
-                <span class="trend-up">+47% vs Déc.</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-label">Taux d'Engagement</span>
-                <span class="stat-value">85,56%</span>
-                <span style="color:#888">Stable</span>
-            </div>
-        </div>
 
-        <div class="analysis-content">
-            <div class="text-block">
-                <h3>Dynamique des Canaux</h3>
-                <p><strong>Organic Search :</strong> Pilier majeur (541 utilisateurs en mars). La stratégie sémantique de novembre 2025 est pleinement validée.</p>
-                <p><strong>Referral :</strong> Pic en janvier (168 sessions) via com interne. Stabilisation avec une qualité exceptionnelle (sessions de 10 min).</p>
-                <p><strong>LLM (IA Search) :</strong> Hausse de <strong>+250%</strong> en mars. Les IA (ChatGPT, Copilot) utilisent désormais le site comme source de référence.</p>
+        <table class="evo-table">
+            <thead>
+                <tr>
+                    <th>Indicateur</th>
+                    <th>Décembre 2025</th>
+                    <th>Mars 2026</th>
+                    <th>Évolution</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Utilisateurs</td><td>418</td><td>589</td><td class="delta-pos">+41%</td></tr>
+                <tr><td>Sessions</td><td>439</td><td>644</td><td class="delta-pos">+47%</td></tr>
+                <tr><td>Durée de session</td><td>03:59</td><td>03:56</td><td>Stable</td></tr>
+                <tr><td>Taux d'engagement</td><td>87,24%</td><td>85,56%</td><td>Stable</td></tr>
+            </tbody>
+        </table>
+
+        <div class="content-grid">
+            <div class="analysis-box">
+                <h3>Dynamique des Canaux & Géo</h3>
+                <p><strong>L'Organique gagne la partie :</strong> Le référencement naturel est le moteur de croissance, passant de 371 à 541 utilisateurs. Les optimisations de novembre portent leurs fruits.</p>
+                <p><strong>Bascule Internationale :</strong> En mars, les <strong>USA (/en-US/)</strong> deviennent la 1ère porte d'entrée mondiale (246 utilisateurs), dépassant le trafic français. On observe aussi l'arrivée de marchés comme la Géorgie et la Russie.</p>
+                <div class="key-findings">
+                    <h4>Impact IA Search</h4>
+                    Le trafic via l'IA (ChatGPT, Copilot) explose de <strong>+250%</strong>. Ces utilisateurs restent en moyenne 10 min sur le site, signe que Manitou devient une source de référence pour les algorithmes.
+                </div>
             </div>
-            <div class="chart-block">
+            <div class="chart-box">
                 <canvas id="chartMere"></canvas>
             </div>
         </div>
-        
-        <div class="highlight">
-            <h3>Mutation Géographique</h3>
-            <p>Bascule historique : En mars, la version <strong>États-Unis (/en-US/)</strong> devient la 1ère porte d'entrée du site (246 utilisateurs), dépassant le trafic francophone combiné.</p>
-        </div>
     </div>
 
-    <div class="card" id="maintenance">
-        <div class="section-header">
-            <div class="icon-circle">02</div>
-            <h2>Page Entretien & Maintenance</h2>
-        </div>
-        
-        <div class="grid-3">
-            <div class="stat-item">
-                <span class="stat-label">Taux d'Engagement</span>
-                <span class="stat-value">78,43%</span>
-                <span class="trend-up">Exceptionnel</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-label">Consultation FR</span>
-                <span class="stat-value">> 10 min</span>
-                <span style="color:#888">Profils Experts</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-label">Tendance Volume</span>
-                <span class="stat-value">Stable</span>
-                <span style="color:#888">Post-Lancement</span>
-            </div>
+    <div class="page-card">
+        <div class="page-header">
+            <h2>Page Entretien et Maintenance</h2>
         </div>
 
-        <div class="analysis-content">
-            <div class="text-block">
-                <h3>Analyse des Canaux</h3>
-                <p>Domination SEO (>90%). L'audience est purement intentionniste : recherche active de solutions de maintenance technique.</p>
-                <p><strong>LLM :</strong> Sessions constantes via ChatGPT/Gemini avec des durées records (06:01), confirmant la valeur informative de la page.</p>
+        <table class="evo-table">
+            <thead>
+                <tr>
+                    <th>Indicateur</th>
+                    <th>Décembre 2025</th>
+                    <th>Mars 2026</th>
+                    <th>Tendance</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Utilisateurs</td><td>137</td><td>98</td><td>Stable</td></tr>
+                <tr><td>Sessions</td><td>157</td><td>102</td><td>Cohérent</td></tr>
+                <tr><td>Durée de session</td><td>03:53</td><td>02:37</td><td>Qualité ++</td></tr>
+                <tr><td>Taux d'engagement</td><td>77,07%</td><td>78,43%</td><td class="delta-pos">Exceptionnel</td></tr>
+            </tbody>
+        </table>
+
+        <div class="content-grid">
+            <div class="analysis-box">
+                <h3>Comportement "Expert"</h3>
+                <p>La page capte une audience purement intentionniste. Les propriétaires recherchent activement des solutions de maintenance. La durée de session reste bien supérieure à la moyenne du site.</p>
+                <p><strong>Le "Biais Français" :</strong> Bien que le volume soit plus faible qu'aux USA (source n°1 désormais), les utilisateurs français sont les plus qualifiés avec des sessions dépassant les <strong>10 minutes</strong>.</p>
             </div>
-            <div class="text-block">
-                <h3>Géographie</h3>
-                <p>À partir de février, les <strong>États-Unis</strong> deviennent la source n°1 de trafic. En France, bien que le volume soit moindre, l'engagement est maximal (consultations de techniciens ou profils experts).</p>
+            <div class="analysis-box">
+                <h3>Social & IA</h3>
+                <p>Le SEO représente 90% du trafic. Les sessions IA (ChatGPT/Gemini) confirment la valeur documentaire de la page avec des durées de sessions de 6 minutes en moyenne.</p>
             </div>
         </div>
     </div>
 
-    <div class="card" id="reman">
-        <div class="section-header">
-            <div class="icon-circle">03</div>
+    <div class="page-card">
+        <div class="page-header">
             <h2>Page REMAN (Échange Standard)</h2>
         </div>
 
-        <div class="grid-3">
-            <div class="stat-item">
-                <span class="stat-label">Utilisateurs</span>
-                <span class="stat-value">+112%</span>
-                <span class="trend-up">Progression Constante</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-label">Durée de session</span>
-                <span class="stat-value">05:10</span>
-                <span class="trend-up">+737%</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-label">Origine</span>
-                <span class="stat-value">SEO</span>
-                <span style="color:#888">85% à 100%</span>
-            </div>
-        </div>
+        <table class="evo-table">
+            <thead>
+                <tr>
+                    <th>Indicateur</th>
+                    <th>Décembre 2025</th>
+                    <th>Mars 2026</th>
+                    <th>Évolution</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Utilisateurs</td><td>8</td><td>17</td><td class="delta-pos">+112%</td></tr>
+                <tr><td>Sessions</td><td>9</td><td>19</td><td class="delta-pos">+111%</td></tr>
+                <tr><td>Durée de session</td><td>00:37</td><td>05:10</td><td class="delta-pos">+737%</td></tr>
+                <tr><td>Taux d'engagement</td><td>88,89%</td><td>73,68%</td><td>-15,2 pts</td></tr>
+            </tbody>
+        </table>
 
-        <div class="analysis-content">
-            <div class="text-block">
-                <h3>Économie Circulaire</h3>
-                <p>La page REMAN attire un trafic d'intention très spécifique. On observe une diversification naissante (Social/Referral en mars), signe que la page commence à être partagée hors moteurs de recherche.</p>
+        <div class="content-grid">
+            <div class="analysis-box">
+                <h3>Pédagogie de l'Économie Circulaire</h3>
+                <p>Succès total pour l'échange standard. L'audience a doublé, mais surtout, les gens <strong>lisent enfin le contenu</strong> (temps passé multiplié par 7). Le propriétaire s'instruit sur la valeur du reconditionné Manitou.</p>
             </div>
-            <div class="text-block">
-                <h3>Internationalisation</h3>
-                <p>D'un trafic européen en décembre, nous sommes passés à une consolidation sur les <strong>États-Unis</strong>, le Portugal et la Colombie en mars.</p>
+            <div class="key-findings">
+                <h4>Internationalisation</h4>
+                Le trafic s'est déplacé de l'Europe (Décembre) vers une consolidation sur les USA, le Portugal et la Colombie (Mars).
             </div>
         </div>
     </div>
 
-    <div class="card" id="electricite" style="border-left: 8px solid var(--manitou-red);">
-        <div class="section-header">
-            <div class="icon-circle" style="background:#333">!</div>
-            <h2>Page Électricité & Batteries</h2>
+    <div class="page-card" style="border-top: 6px solid var(--manitou-red);">
+        <div class="page-header">
+            <h2>Page Batteries et Électricité</h2>
         </div>
 
-        <div class="grid-3">
-            <div class="stat-item">
-                <span class="stat-label">Utilisateurs</span>
-                <span class="stat-value">12</span>
-                <span class="trend-down">-52%</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-label">Engagement</span>
-                <span class="stat-value">45,00%</span>
-                <span class="trend-down">Alerte Critique</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-label">Canal Direct</span>
-                <span class="stat-value">45%</span>
-                <span style="color:#888">Biais Technique</span>
-            </div>
-        </div>
+        <table class="evo-table">
+            <thead>
+                <tr>
+                    <th>Indicateur</th>
+                    <th>Décembre 2025</th>
+                    <th>Mars 2026</th>
+                    <th>Tendance</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Utilisateurs</td><td>25</td><td>12</td><td class="delta-neg">-52%</td></tr>
+                <tr><td>Sessions</td><td>26</td><td>20</td><td class="delta-neg">-23%</td></tr>
+                <tr><td>Durée de session</td><td>01:25</td><td>00:35</td><td class="delta-neg">-59%</td></tr>
+                <tr><td>Taux d'engagement</td><td>76,92%</td><td>45,00%</td><td class="delta-neg">Alerte Critique</td></tr>
+            </tbody>
+        </table>
 
-        <div class="highlight" style="background:rgba(0,0,0,0.02); border-color:#333">
-            <h3>Diagnostic & Anomalies</h3>
-            <p><strong>Perte d'intentionnalité :</strong> L'efficacité SEO s'est effondrée. Le canal "Direct" (sessions de 10 sec) suggère une erreur de redirection ou une pollution robotique (Biais Niger).</p>
-            <p><strong>Réseaux Sociaux :</strong> Pas d'impact mesuré du post de janvier, suspectant un problème d'alias d'URL.</p>
+        <div class="content-grid">
+            <div class="analysis-box">
+                <h3>Diagnostic des Anomalies</h3>
+                <p><strong>Biais Niger :</strong> Le canal "Direct" (45% du trafic) pollue nos stats avec des sessions de 10 secondes. Il s'agit d'un problème technique d'indexation ou de robots qui "volent" le trafic français.</p>
+                <p><strong>Perte d'intentionnalité :</strong> L'engagement chute. Les conseils batteries ne trouvent plus leur public ou sont mal dirigés géographiquement.</p>
+            </div>
+            <div class="key-findings">
+                <h4>Action Corrective</h4>
+                Une vérification des alias d'URL et des redirections France/Niger est impérative pour récupérer notre audience domestique.
+            </div>
         </div>
     </div>
 
 </div>
 
 <footer>
-    © 2026 Groupe Manitou | Direction Marketing | Rapport Confidentiel
+    Document de travail - Groupe Manitou - Direction Marketing - Mars 2026
 </footer>
 
 <script>
-    // --- ANIMATIONS GSAP ---
     gsap.registerPlugin(ScrollTrigger);
-
-    gsap.utils.toArray('.card').forEach(card => {
+    gsap.utils.toArray('.page-card').forEach(card => {
         gsap.to(card, {
-            scrollTrigger: {
-                trigger: card,
-                start: "top 85%",
-                toggleActions: "play none none none"
-            },
-            opacity: 1,
-            y: 0,
-            duration: 1,
-            ease: "power2.out"
+            scrollTrigger: { trigger: card, start: "top 90%" },
+            opacity: 1, y: 0, duration: 1, ease: "power2.out"
         });
     });
 
-    // --- GRAPHIQUE PAGE MERE ---
     const ctxMere = document.getElementById('chartMere').getContext('2d');
     new Chart(ctxMere, {
         type: 'line',
@@ -284,16 +261,10 @@
                 data: [371, 410, 480, 541],
                 borderColor: '#e30613',
                 backgroundColor: 'rgba(227, 6, 19, 0.1)',
-                fill: true,
-                tension: 0.4
+                fill: true, tension: 0.4
             }]
         },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
-            scales: { y: { display: false }, x: { grid: { display: false } } }
-        }
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
     });
 </script>
 
