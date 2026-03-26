@@ -1,286 +1,224 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manitou - Digital Marketing Report 2026</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/1.6.9/topojson.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/datamaps/0.5.9/datamaps.world.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <style>
-        :root {
-            --manitou-red: #e30613;
-            --manitou-dark: #2d2d2d;
-            --manitou-grey: #f0f2f5;
-            --manitou-white: #ffffff;
-            --manitou-blue: #007bff;
-            --manitou-cyan: #00ffff;
-            --text-muted: #888888;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reporting SEO Pièces de Rechange | Manitou</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 
-        body {
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            background-color: var(--manitou-grey);
-            color: var(--manitou-dark);
-            overflow-x: hidden;
-        }
+  <style>
+    :root {
+      --manitou-red: #e60000;
+      --text-dark: #333333;
+      --bg-light: #f8f9fa;
+    }
+    
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Open Sans', 'Segoe UI', Arial, sans-serif;
+      background-color: var(--bg-light);
+      color: var(--text-dark);
+      -webkit-font-smoothing: antialiased;
+    }
 
-        /* En-tête */
-        header {
-            background-color: var(--manitou-white);
-            border-bottom: 2px solid #eee;
-            padding: 15px 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
+    /* En-tête (Header) Manitou */
+    header.main-header {
+      background-color: var(--manitou-red);
+      color: white;
+      padding: 20px 0;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    
+    header.main-header h1 {
+      margin: 0;
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
 
-        .logo-area { display: flex; align-items: center; gap: 10px; }
-        .logo { font-weight: bold; font-size: 20px; color: var(--manitou-red); text-transform: uppercase; }
-        .header-controls { display: flex; gap: 15px; }
-        .icon-btn {
-            background: #eee; border: none; padding: 8px 12px;
-            border-radius: 6px; cursor: pointer; color: #555;
-        }
+    /* Pied de page (Footer) */
+    footer.main-footer {
+      background-color: var(--text-dark);
+      color: #ffffff;
+      text-align: center;
+      padding: 20px;
+      margin-top: 50px;
+      font-size: 0.9rem;
+    }
 
-        /* Menu latéral flottant */
-        .side-nav {
-            position: fixed; top: 100px; right: 30px;
-            background: var(--manitou-white);
-            padding: 20px; border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            z-index: 1000; display: flex; flex-direction: column; gap: 10px;
-        }
-        .nav-item { color: #555; text-decoration: none; font-size: 0.9em; }
-        .nav-item:hover { color: var(--manitou-red); font-weight: bold; }
+    /* --- STYLES DU DASHBOARD (Intégrés ici pour centraliser) --- */
+    .manitou-dashboard-wrapper {
+      padding: 40px 20px;
+      box-sizing: border-box;
+      max-width: 1200px;
+      margin: 0 auto; /* Centre le contenu */
+    }
+    .md-header { text-align: center; margin-bottom: 40px; }
+    .md-header h2 { color: var(--manitou-red); font-size: 2.2rem; margin-bottom: 10px; font-weight: 700; }
+    .md-header p { font-size: 1.1rem; color: #666; max-width: 800px; margin: 0 auto; }
+    
+    .md-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 25px;
+    }
+    
+    .md-card {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border-top: 4px solid var(--text-dark);
+      display: flex;
+      flex-direction: column;
+    }
+    .md-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
+    .md-card.success { border-top-color: #28a745; }
+    .md-card.alert { border-top-color: var(--manitou-red); background-color: #fff9f9; }
+    
+    .md-card-title { font-size: 1.3rem; font-weight: 600; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+    
+    .md-kpi-row { display: flex; justify-content: space-between; margin-bottom: 20px; background: #f4f4f4; padding: 15px; border-radius: 8px; }
+    .md-kpi { text-align: center; }
+    .md-kpi-value { font-size: 1.8rem; font-weight: 700; color: var(--text-dark); }
+    .md-kpi-label { font-size: 0.85rem; color: #666; text-transform: uppercase; letter-spacing: 0.5px; }
+    
+    .md-trend-up { color: #28a745; font-size: 0.9rem; font-weight: bold; }
+    .md-trend-down { color: var(--manitou-red); font-size: 0.9rem; font-weight: bold; }
+    .md-trend-stable { color: #6c757d; font-size: 0.9rem; font-weight: bold; }
+    
+    .md-content h4 { font-size: 1rem; color: var(--manitou-red); margin: 15px 0 5px 0; }
+    .md-content ul { margin: 0; padding-left: 20px; font-size: 0.95rem; line-height: 1.5; }
+    .md-content li { margin-bottom: 8px; }
+    
+    .md-badge { display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: bold; margin-left: auto; }
+    .bg-red { background: var(--manitou-red); color: white; }
+    .bg-green { background: #28a745; color: white; }
 
-        /* Conteneur principal */
-        .main-content {
-            width: 90%; max-width: 1300px; margin: 40px auto;
-            display: grid; grid-template-columns: repeat(2, 1fr);
-            gap: 30px; padding-bottom: 100px;
-        }
-
-        /* Cartes Dashboard (inspiré de ton exemple) */
-        .dash-card {
-            background-color: var(--manitou-white);
-            border-radius: 12px; padding: 30px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease-in-out;
-            position: relative;
-            grid-column: span 1;
-            opacity: 0; transform: translateY(50px); /* Initial pour anim */
-        }
-        .dash-card:hover { transform: translateY(-10px); }
-        .dash-card.full-width { grid-column: span 2; }
-        .dash-card.dark { background-color: var(--manitou-dark); color: white; }
-
-        /* Éléments internes des cartes */
-        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .card-title { font-weight: bold; text-transform: uppercase; color: var(--text-muted); font-size: 0.8em; letter-spacing: 1px; }
-        .stat-value { font-size: 2.5rem; font-weight: bold; margin: 10px 0; }
-        .delta-val { font-size: 0.9em; font-weight: bold; }
-        .positive { color: #28a745; }
-        .negative { color: #dc3545; }
-        .source-icon { position: absolute; top: 30px; left: 30px; font-size: 1.2rem; }
-
-        /* Carte carte mondiale interactif */
-        #world-map { width: 100%; height: 500px; }
-
-        /* Grille KPI */
-        .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-top: 20px; }
-        .kpi-item { text-align: center; background: #fafafa; padding: 15px; border-radius: 8px; border: 1px solid #eee; }
-        .kpi-item-val { font-size: 1.5rem; font-weight: bold; }
-        .kpi-item-label { font-size: 0.8rem; color: #777; }
-
-        /* Boîte résumé final */
-        .final-summary {
-            background: var(--manitou-white); padding: 40px; border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-bottom: 80px;
-            grid-column: span 2; border-left: 10px solid var(--manitou-red);
-        }
-        .final-summary h2 { margin-top: 0; }
-
-        footer { text-align: center; padding: 50px; color: #aaa; background: white; border-top: 1px solid #eee; }
-    </style>
+    @media (max-width: 768px) {
+      .md-kpi-row { flex-direction: column; gap: 15px; }
+    }
+  </style>
 </head>
 <body>
 
-<header>
-    <div class="logo-area">
-        <div class="logo">Manitou |Spare Parts SEO</div>
-    </div>
-    <div class="header-controls">
-        <button class="icon-btn">Export PDF</button>
-        <button class="icon-btn">Email</button>
-    </div>
-</header>
+  <header class="main-header">
+    <h1>Manitou Group | Marketing & Digital</h1>
+  </header>
 
-<div class="side-nav">
-    <a href="#hero" class="nav-item">Introduction</a>
-    <a href="#global" class="nav-item">Global</a>
-    <a href="#mere" class="nav-item">Page Mère</a>
-    <a href="#mainte" class="nav-item">Maintenance</a>
-    <a href="#reman" class="nav-item">REMAN</a>
-    <a href="#elec" class="nav-item">Électricité</a>
-    <a href="#conclusion" class="nav-item">Conclusion</a>
-</div>
+  <main>
+    <section class="manitou-dashboard-wrapper" id="seo-report-mar26">
+      
+      <div class="md-header">
+        <h2>Reporting SEO : Impact Pièces de Rechange</h2>
+        <p>Analyse des performances (Décembre 2025 - Mars 2026). Découvrez comment nos optimisations sémantiques de novembre ont transformé le trafic de manitou.com.</p>
+      </div>
 
-<div class="dash-card full-width hero" id="hero">
-    <h2 style="font-size: 2.2rem;">Rapport Digital Marketing : Valorisation de l'Origine</h2>
-    <p>Une plongée immersive dans l'impact de nos stratégies SEO d'information de décembre 2025 à mars 2026.</p>
-</div>
-
-<div class="main-content">
-
-    <div class="dash-card dark full-width" id="global">
-        <div class="card-header"><span class="card-title">Évolution Globale (Visites)</span></div>
-        <canvas id="mainChart" style="max-height: 400px;"></canvas>
-    </div>
-
-    <div class="dash-card full-width" id="map-section">
-        <div class="card-header"><span class="card-title">Répartition Mondiale des Visiteurs (Mars)</span></div>
-        <div id="world-map"></div>
-    </div>
-
-    <div class="dash-card" id="mere">
-        <span class="source-icon">Mère</span>
-        <div class="card-header"><span class="card-title">Page Mère Pièces de Rechange</span></div>
-        <span class="stat-value">541 <span style="font-size:0.5em">Visites (Mars)</span></span>
-        <p><strong>Impact SEO majeur :</strong> L'Organique passe de 371 à 541 utilisateurs. Les optimisations de novembre sont validées.</p>
-        <p><strong>Focus Géo :</strong> La version <strong>États-Unis (/en-US/)</strong> devient la 1ère porte d'entrée mondiale avec 246 utilisateurs.</p>
-        <div class="kpi-grid">
-            <div class="kpi-item"><span class="kpi-item-val">418</span><span class="kpi-item-label">Utilisateurs (Déc)</span></div>
-            <div class="kpi-item"><span class="kpi-item-val positive">+41%</span><span class="kpi-item-label">Croissance Déc-Mar</span></div>
-            <div class="kpi-item"><span class="kpi-item-val positive">+250%</span><span class="kpi-item-label">Trafic IA Search</span></div>
+      <div class="md-grid">
+        <div class="md-card success">
+          <div class="md-card-title">🌍 Page Mère <span class="md-badge bg-green">Forte Croissance</span></div>
+          <div class="md-kpi-row">
+            <div class="md-kpi">
+              <div class="md-kpi-value">589</div>
+              <div class="md-kpi-label">Utilisateurs <span class="md-trend-up">↑ +41%</span></div>
+            </div>
+            <div class="md-kpi">
+              <div class="md-kpi-value">644</div>
+              <div class="md-kpi-label">Sessions <span class="md-trend-up">↑ +47%</span></div>
+            </div>
+          </div>
+          <div class="md-content">
+            <h4>Canaux de trafic</h4>
+            <ul>
+              <li><strong>SEO validé :</strong> Le référencement naturel reste notre moteur principal (541 utilisateurs).</li>
+              <li><strong>Tendance IA :</strong> Bond de <strong>+250%</strong> des visites via ChatGPT/Copilot avec des sessions record (~10 min). Manitou devient une référence pour l'IA !</li>
+            </ul>
+            <h4>Géographie</h4>
+            <ul>
+              <li>Basculement historique : Les États-Unis sont devenus la 1ère porte d'entrée du site, dépassant la francophonie.</li>
+            </ul>
+          </div>
         </div>
-    </div>
 
-    <div class="dash-card" id="mainte">
-        <span class="source-icon">Mainte</span>
-        <div class="card-header"><span class="card-title">Page Entretien et Maintenance</span></div>
-        <span class="stat-value">03:53 <span style="font-size:0.5em">Temps Moy. (Déc)</span></span>
-        <p><strong>Qualité Expert :</strong> Les utilisateurs français restent **plus de 10 minutes** sur cette page d'aide au diagnostic.</p>
-        <p><strong>SEO Dominant :</strong> Le référencement naturel représente 90% du trafic. L'intention technique est forte.</p>
-    </div>
+        <div class="md-card">
+          <div class="md-card-title">🛠️ Entretien & Maintenance</div>
+          <div class="md-kpi-row">
+            <div class="md-kpi">
+              <div class="md-kpi-value">78.4%</div>
+              <div class="md-kpi-label">Engagement <span class="md-trend-stable">→ Constant</span></div>
+            </div>
+            <div class="md-kpi">
+              <div class="md-kpi-value">2m37</div>
+              <div class="md-kpi-label">Durée <span class="md-trend-up">Qualité top</span></div>
+            </div>
+          </div>
+          <div class="md-content">
+            <h4>Analyse de l'audience</h4>
+            <ul>
+              <li><strong>Intention forte :</strong> 90% du trafic vient du SEO. Les visiteurs cherchent activement des solutions.</li>
+              <li><strong>Mix Géo :</strong> Les US prennent la tête depuis février. Cependant, le trafic Français affiche des profils très experts (sessions de + de 10 min).</li>
+              <li><strong>Présence IA :</strong> Apparition constante de l'IA (Gemini/ChatGPT) utilisant notre page comme ressource technique.</li>
+            </ul>
+          </div>
+        </div>
 
-    <div class="dash-card" id="reman">
-        <span class="source-icon">REMAN</span>
-        <div class="card-header"><span class="card-title">Page REMAN (Échange Standard)</span></div>
-        <span class="stat-value">+112% <span style="font-size:0.5em">Utilisateurs Déc-Mar</span></span>
-        <p><strong>Pédagogie de l'Économie Circulaire :</strong> L'audience a doublé et les gens s'instruisent (temps passé multiplié par 7).</p>
-        <p><strong>Géo :</strong> Consolidation sur les USA, le Portugal et la Colombie.</p>
-    </div>
+        <div class="md-card success">
+          <div class="md-card-title">♻️ REMAN (ID 592)</div>
+          <div class="md-kpi-row">
+            <div class="md-kpi">
+              <div class="md-kpi-value">17</div>
+              <div class="md-kpi-label">Utilisateurs <span class="md-trend-up">↑ +112%</span></div>
+            </div>
+            <div class="md-kpi">
+              <div class="md-kpi-value">5m10</div>
+              <div class="md-kpi-label">Durée <span class="md-trend-up">↑ +737%</span></div>
+            </div>
+          </div>
+          <div class="md-content">
+            <h4>Dynamique de la page</h4>
+            <ul>
+              <li><strong>Croissance continue :</strong> Audience multipliée par deux depuis son lancement avec un temps passé qui explose.</li>
+              <li><strong>Hégémonie SEO :</strong> Trafic d'intention exclusif lié au reconditionnement.</li>
+              <li><strong>Internationalisation :</strong> Après un début européen, la page a touché l'Albanie, le Brésil, et trouve désormais son premier marché aux États-Unis.</li>
+            </ul>
+          </div>
+        </div>
 
-    <div class="dash-card negative" id="elec" style="border-left: 10px solid var(--manitou-dark);">
-        <span class="source-icon">Elec</span>
-        <div class="card-header"><span class="card-title">Page Batteries et Électricité</span></div>
-        <span class="stat-value" style="color:#eee">45% <span style="font-size:0.5em; color:#eee">Engagement (Mars)</span></span>
-        <p style="color:#eee"><strong>Diagnostic critique :</strong> Le canal "Direct" (45% du trafic) est problématique avec des sessions de 10 secondes (biais robotique/Niger).</p>
-        <p style="color:#eee"><strong>SEO en baisse :</strong> L'engagement global chute et les conseils électriques sont mal dirigés.</p>
-    </div>
+        <div class="md-card alert">
+          <div class="md-card-title">⚡ Électricité (ID 241) <span class="md-badge bg-red">Alerte Critique</span></div>
+          <div class="md-kpi-row" style="background: #ffe6e6;">
+            <div class="md-kpi">
+              <div class="md-kpi-value">12</div>
+              <div class="md-kpi-label">Utilisateurs <span class="md-trend-down">↓ -52%</span></div>
+            </div>
+            <div class="md-kpi">
+              <div class="md-kpi-value">45%</div>
+              <div class="md-kpi-label">Engagement <span class="md-trend-down">↓ Chute libre</span></div>
+            </div>
+          </div>
+          <div class="md-content">
+            <h4>Points de friction</h4>
+            <ul>
+              <li><strong>Perte d'efficacité SEO :</strong> L'engagement naturel est passé de 74% à 63%.</li>
+              <li><strong>Trafic parasite :</strong> 45% des sessions de mars viennent du canal direct mais ne durent que 10 secondes en moyenne.</li>
+              <li><strong>Recommandation :</strong> Auditer cette page rapidement pour comprendre cette perte d'intentionnalité.</li>
+            </ul>
+          </div>
+        </div>
 
-    <div class="dash-card full-width conclusion-card" id="conclusion">
-        <div class="card-header"><span class="card-title">Enseignements clés pour le Marketing</span></div>
-        <p><strong>Expertise Technique :</strong> Le site vitrine d'information technique est devenu une ressource critique, s'adressant directement aux propriétaires.</p>
-        <p><strong>Chantier Prioritaire :</strong> Corriger le conflit technique d'indexation France/Niger pour récupérer notre volume domestique légitime.</p>
-    </div>
+      </div>
+    </section>
+  </main>
 
-</div>
-
-<footer>
-    Manitou Group - Direction Marketing - Mars 2026
-</footer>
-
-<script>
-    // --- GSAP ANIMATIONS AU SCROLL ---
-    gsap.registerPlugin(ScrollTrigger);
-
-    gsap.utils.toArray('.dash-card').forEach(card => {
-        gsap.to(card, {
-            scrollTrigger: {
-                trigger: card,
-                start: "top 80%", // Se déclenche quand le haut de la carte arrive à 80% de l'écran
-                toggleActions: "play none none none"
-            },
-            opacity: 1,
-            y: 0,
-            duration: 1,
-            ease: "power3.out"
-        });
-    });
-
-    // --- CARTE MONDIALE INTERACTIVE (Datamaps) ---
-    var map = new Datamap({
-        element: document.getElementById('world-map'),
-        projection: 'mercator',
-        fills: {
-            defaultFill: '#eee',
-            active: var(--manitou-red),
-            medium: '#f4a582',
-            low: '#fddbc7'
-        },
-        data: {
-            USA: { fillKey: 'active', visits: 246 },
-            FRA: { fillKey: 'medium', visits: 82 },
-            GEG: { fillKey: 'low', visits: 10 },
-            RUS: { fillKey: 'low', visits: 15 },
-            NER: { fillKey: 'active', visits: 45 }, // Pour souligner le biais technique
-            PRT: { fillKey: 'medium', visits: 35 },
-            COL: { fillKey: 'medium', visits: 28 }
-        },
-        geographyConfig: {
-            popupTemplate: function(geo, data) {
-                return '<div class="hoverinfo"><strong>' + geo.properties.name + '</strong><br>' +
-                       (data ? data.visits + ' visites' : 'Peu de trafic') + '</div>';
-            },
-            highlightFillColor: '#2d2d2d',
-            highlightBorderColor: 'rgba(255,255,255,0.2)'
-        }
-    });
-
-    // --- GRAPHIQUE GLOBAL (Chart.js) ---
-    Chart.defaults.color = '#fff';
-    Chart.defaults.font.family = "'Inter', sans-serif";
-
-    const ctxMain = document.getElementById('mainChart').getContext('2d');
-    new Chart(ctxMain, {
-        type: 'line',
-        data: {
-            labels: ['Mère', 'Maintenance', 'REMAN', 'Batteries'],
-            datasets: [{
-                label: 'Utilisateurs Organiques Décembre 2025',
-                data: [371, 137, 8, 25],
-                borderColor: '#eee',
-                backgroundColor: 'rgba(255,255,255,0.1)',
-                fill: true, tension: 0.4
-            },
-            {
-                label: 'Utilisateurs Organiques Mars 2026',
-                data: [541, 124, 17, 12],
-                borderColor: '#e30613', // Manitou Red
-                backgroundColor: 'rgba(227, 6, 19, 0.2)',
-                fill: true, tension: 0.4
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                y: { grid: { color: 'rgba(255,255,255,0.03)' } },
-                x: { grid: { display: false } }
-            }
-        }
-    });
-</script>
+  <footer class="main-footer">
+    <p>&copy; 2026 Manitou Group. Document interne - Équipe Marketing & SEO.</p>
+  </footer>
 
 </body>
 </html>
