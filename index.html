@@ -1,110 +1,149 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Reporting SEO Pièces de Rechange | Manitou</title>
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporting SEO Pièces de Rechange | Manitou</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Segoe+UI:wght@400;600;700&display=swap" rel="stylesheet">
 
-  <style>
-    :root {
-      --manitou-red: #e60000;
-      --text-dark: #333333;
-      --bg-light: #f8f9fa;
-    }
-    
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Open Sans', 'Segoe UI', Arial, sans-serif;
-      background-color: var(--bg-light);
-      color: var(--text-dark);
-      -webkit-font-smoothing: antialiased;
-    }
+    <style>
+        :root {
+            --manitou-red: #e60000;
+            --text-dark: #333333;
+            --text-grey: #666666;
+            --bg-light: #f8f9fa;
+            --bg-card: #ffffff;
+            --green-success: #28a745;
+            --shadow-subtle: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-strong: 0 8px 15px rgba(0,0,0,0.1);
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Open Sans', 'Segoe UI', Arial, sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            -webkit-font-smoothing: antialiased;
+        }
 
-    /* En-tête (Header) Manitou */
-    header.main-header {
-      background-color: var(--manitou-red);
-      color: white;
-      padding: 20px 0;
-      text-align: center;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    }
-    
-    header.main-header h1 {
-      margin: 0;
-      font-size: 1.8rem;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-    }
+        /* En-tête (Header) Manitou */
+        header.main-header {
+            background-color: var(--manitou-red);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        header.main-header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
 
-    /* Pied de page (Footer) */
-    footer.main-footer {
-      background-color: var(--text-dark);
-      color: #ffffff;
-      text-align: center;
-      padding: 20px;
-      margin-top: 50px;
-      font-size: 0.9rem;
-    }
+        /* Pied de page (Footer) */
+        footer.main-footer {
+            background-color: var(--text-dark);
+            color: #ffffff;
+            text-align: center;
+            padding: 20px;
+            margin-top: 50px;
+            font-size: 0.9rem;
+        }
 
-    /* --- STYLES DU DASHBOARD (Intégrés ici pour centraliser) --- */
-    .manitou-dashboard-wrapper {
-      padding: 40px 20px;
-      box-sizing: border-box;
-      max-width: 1200px;
-      margin: 0 auto; /* Centre le contenu */
-    }
-    .md-header { text-align: center; margin-bottom: 40px; }
-    .md-header h2 { color: var(--manitou-red); font-size: 2.2rem; margin-bottom: 10px; font-weight: 700; }
-    .md-header p { font-size: 1.1rem; color: #666; max-width: 800px; margin: 0 auto; }
-    
-    .md-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 25px;
-    }
-    
-    .md-card {
-      background: #ffffff;
-      border-radius: 12px;
-      padding: 25px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      border-top: 4px solid var(--text-dark);
-      display: flex;
-      flex-direction: column;
-    }
-    .md-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
-    .md-card.success { border-top-color: #28a745; }
-    .md-card.alert { border-top-color: var(--manitou-red); background-color: #fff9f9; }
-    
-    .md-card-title { font-size: 1.3rem; font-weight: 600; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
-    
-    .md-kpi-row { display: flex; justify-content: space-between; margin-bottom: 20px; background: #f4f4f4; padding: 15px; border-radius: 8px; }
-    .md-kpi { text-align: center; }
-    .md-kpi-value { font-size: 1.8rem; font-weight: 700; color: var(--text-dark); }
-    .md-kpi-label { font-size: 0.85rem; color: #666; text-transform: uppercase; letter-spacing: 0.5px; }
-    
-    .md-trend-up { color: #28a745; font-size: 0.9rem; font-weight: bold; }
-    .md-trend-down { color: var(--manitou-red); font-size: 0.9rem; font-weight: bold; }
-    .md-trend-stable { color: #6c757d; font-size: 0.9rem; font-weight: bold; }
-    
-    .md-content h4 { font-size: 1rem; color: var(--manitou-red); margin: 15px 0 5px 0; }
-    .md-content ul { margin: 0; padding-left: 20px; font-size: 0.95rem; line-height: 1.5; }
-    .md-content li { margin-bottom: 8px; }
-    
-    .md-badge { display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: bold; margin-left: auto; }
-    .bg-red { background: var(--manitou-red); color: white; }
-    .bg-green { background: #28a745; color: white; }
+        /* --- STYLES DU DASHBOARD CENTRAL --- */
+        .manitou-dashboard-wrapper {
+            padding: 40px 20px;
+            box-sizing: border-box;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+        .md-header { text-align: center; margin-bottom: 40px; }
+        .md-header h2 { color: var(--manitou-red); font-size: 2.2rem; margin-bottom: 10px; font-weight: 700; }
+        .md-header p { font-size: 1.1rem; color: var(--text-grey); max-width: 800px; margin: 0 auto; }
+        
+        .md-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+        }
+        
+        .md-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: var(--shadow-subtle);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-top: 4px solid var(--text-dark);
+            display: flex;
+            flex-direction: column;
+        }
+        .md-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-strong); }
+        .md-card.success { border-top-color: var(--green-success); }
+        .md-card.alert { border-top-color: var(--manitou-red); background-color: #fff9f9; }
+        
+        .md-card-title { font-size: 1.3rem; font-weight: 600; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        
+        .md-kpi-row { display: flex; justify-content: space-between; margin-bottom: 20px; background: #f4f4f4; padding: 15px; border-radius: 8px; }
+        .md-kpi { text-align: center; }
+        .md-kpi-value { font-size: 2.5rem; font-weight: 700; color: var(--text-dark); }
+        .md-kpi-label { font-size: 0.85rem; color: var(--text-grey); text-transform: uppercase; letter-spacing: 0.5px; }
+        
+        .md-trend-up { color: var(--green-success); font-size: 0.9rem; font-weight: bold; }
+        .md-trend-down { color: var(--manitou-red); font-size: 0.9rem; font-weight: bold; }
+        .md-trend-stable { color: #6c757d; font-size: 0.9rem; font-weight: bold; }
+        
+        .md-content h4 { font-size: 1rem; color: var(--manitou-red); margin: 15px 0 5px 0; }
+        .md-content ul { margin: 0; padding-left: 20px; font-size: 0.95rem; line-height: 1.5; }
+        .md-content li { margin-bottom: 8px; }
+        
+        .md-badge { display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: bold; margin-left: auto; }
+        .bg-red { background: var(--manitou-red); color: white; }
+        .bg-green { background: var(--green-success); color: white; }
 
-    @media (max-width: 768px) {
-      .md-kpi-row { flex-direction: column; gap: 15px; }
-    }
-  </style>
+        /* Styles pour les mini-cartes de fonctionnalités */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+        
+        .feature-card {
+            background-color: var(--bg-card);
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: var(--shadow-subtle);
+            text-align: left;
+            border: 1px solid transparent;
+            transition: border 0.3s ease;
+        }
+        .feature-card:hover { border: 1px solid var(--manitou-red); }
+        
+        .feature-icon {
+            font-size: 2rem;
+            color: var(--manitou-red);
+            margin-bottom: 15px;
+        }
+        
+        .feature-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 10px; color: var(--text-dark); }
+        .feature-text { font-size: 0.95rem; color: var(--text-grey); line-height: 1.5; }
+
+        @media (max-width: 768px) {
+            .md-kpi-row { flex-direction: column; gap: 15px; }
+            .feature-card { text-align: center; }
+        }
+    </style>
 </head>
 <body>
 
@@ -122,48 +161,48 @@
 
       <div class="md-grid">
         <div class="md-card success">
-          <div class="md-card-title">🌍 Page Mère <span class="md-badge bg-green">Forte Croissance</span></div>
+          <div class="md-card-title">🌍 Page Mère (Globale) <span class="md-badge bg-green">Forte Croissance</span></div>
           <div class="md-kpi-row">
             <div class="md-kpi">
-              <div class="md-kpi-value">589</div>
+              <div class="md-kpi-value" data-count="589">0</div>
               <div class="md-kpi-label">Utilisateurs <span class="md-trend-up">↑ +41%</span></div>
             </div>
             <div class="md-kpi">
-              <div class="md-kpi-value">644</div>
+              <div class="md-kpi-value" data-count="644">0</div>
               <div class="md-kpi-label">Sessions <span class="md-trend-up">↑ +47%</span></div>
             </div>
           </div>
           <div class="md-content">
-            <h4>Canaux de trafic</h4>
+            <h4>Analyse des canaux</h4>
             <ul>
               <li><strong>SEO validé :</strong> Le référencement naturel reste notre moteur principal (541 utilisateurs).</li>
               <li><strong>Tendance IA :</strong> Bond de <strong>+250%</strong> des visites via ChatGPT/Copilot avec des sessions record (~10 min). Manitou devient une référence pour l'IA !</li>
             </ul>
-            <h4>Géographie</h4>
+            <h4>Mutation Géo</h4>
             <ul>
               <li>Basculement historique : Les États-Unis sont devenus la 1ère porte d'entrée du site, dépassant la francophonie.</li>
             </ul>
           </div>
         </div>
 
-        <div class="md-card">
+        <div class="md-card success">
           <div class="md-card-title">🛠️ Entretien & Maintenance</div>
           <div class="md-kpi-row">
             <div class="md-kpi">
-              <div class="md-kpi-value">78.4%</div>
-              <div class="md-kpi-label">Engagement <span class="md-trend-stable">→ Constant</span></div>
+              <div class="md-kpi-value">98</div>
+              <div class="md-kpi-label">Utilisateurs <span class="md-trend-stable">→ Stable</span></div>
             </div>
             <div class="md-kpi">
-              <div class="md-kpi-value">2m37</div>
-              <div class="md-kpi-label">Durée <span class="md-trend-up">Qualité top</span></div>
+              <div class="md-kpi-value">78.4%</div>
+              <div class="md-kpi-label">Engagement <span class="md-trend-up">Exceptionnel</span></div>
             </div>
           </div>
           <div class="md-content">
             <h4>Analyse de l'audience</h4>
             <ul>
               <li><strong>Intention forte :</strong> 90% du trafic vient du SEO. Les visiteurs cherchent activement des solutions.</li>
-              <li><strong>Mix Géo :</strong> Les US prennent la tête depuis février. Cependant, le trafic Français affiche des profils très experts (sessions de + de 10 min).</li>
-              <li><strong>Présence IA :</strong> Apparition constante de l'IA (Gemini/ChatGPT) utilisant notre page comme ressource technique.</li>
+              <li><strong>Mix Géo :</strong> Les US prennent la tête depuis février. Le trafic Français affiche des profils très experts (+10 min).</li>
+              <li><strong>Présence IA :</strong> Apparition constante de l'IA utilisant notre page comme ressource technique.</li>
             </ul>
           </div>
         </div>
@@ -176,16 +215,15 @@
               <div class="md-kpi-label">Utilisateurs <span class="md-trend-up">↑ +112%</span></div>
             </div>
             <div class="md-kpi">
-              <div class="md-kpi-value">5m10</div>
-              <div class="md-kpi-label">Durée <span class="md-trend-up">↑ +737%</span></div>
+              <div class="md-kpi-value" data-count="310">0</div>
+              <div class="md-kpi-label">Durée (secs) <span class="md-trend-up">↑ +737%</span></div>
             </div>
           </div>
           <div class="md-content">
             <h4>Dynamique de la page</h4>
             <ul>
-              <li><strong>Croissance continue :</strong> Audience multipliée par deux depuis son lancement avec un temps passé qui explose.</li>
-              <li><strong>Hégémonie SEO :</strong> Trafic d'intention exclusif lié au reconditionnement.</li>
-              <li><strong>Internationalisation :</strong> Après un début européen, la page a touché l'Albanie, le Brésil, et trouve désormais son premier marché aux États-Unis.</li>
+              <li><strong>Temps passé explose :</strong> Audience multipliée par deux depuis son lancement avec une durée moyenne de 5m10s.</li>
+              <li><strong>Internationalisation :</strong> Après l'Europe, l'Albanie et le Brésil, les US s'imposent en Mars comme premier marché.</li>
             </ul>
           </div>
         </div>
@@ -198,27 +236,76 @@
               <div class="md-kpi-label">Utilisateurs <span class="md-trend-down">↓ -52%</span></div>
             </div>
             <div class="md-kpi">
-              <div class="md-kpi-value">45%</div>
-              <div class="md-kpi-label">Engagement <span class="md-trend-down">↓ Chute libre</span></div>
+              <div class="md-kpi-value">0m35</div>
+              <div class="md-kpi-label">Durée <span class="md-trend-down">↓ Chute</span></div>
             </div>
           </div>
           <div class="md-content">
             <h4>Points de friction</h4>
             <ul>
-              <li><strong>Perte d'efficacité SEO :</strong> L'engagement naturel est passé de 74% à 63%.</li>
-              <li><strong>Trafic parasite :</strong> 45% des sessions de mars viennent du canal direct mais ne durent que 10 secondes en moyenne.</li>
-              <li><strong>Recommandation :</strong> Auditer cette page rapidement pour comprendre cette perte d'intentionnalité.</li>
+              <li><strong>Engagement s'effondre :</strong> Le taux d'engagement tombe à 45% (Alerte critique).</li>
+              <li><strong>Trafic parasite :</strong> 45% du trafic vient du canal direct mais ne dure que 10 secondes.</li>
+              <li><strong>Action :</strong> Audit technique et sémantique urgent nécessaire.</li>
             </ul>
           </div>
         </div>
 
       </div>
     </section>
+
+    <section class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <div class="feature-title">Report SEO consolidé</div>
+        <div class="feature-text">Une vue unique de tous nos KPIs pour les types de pièces de rechange.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📅</div>
+        <div class="feature-title">Suivez les évolutions</div>
+        <div class="feature-text">Visualisez facilement les tendances mensuelles de trafic et d'engagement.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🌍</div>
+        <div class="feature-title">Identifiez les marchés</div>
+        <div class="feature-text">Analysez les performances par marché géographique cible.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚠️</div>
+        <div class="feature-title">Alerte technique et sémantique</div>
+        <div class="feature-text">Identifiez instantanément les alertes sur vos pages techniques.</div>
+      </div>
+    </section>
+
   </main>
 
   <footer class="main-footer">
     <p>&copy; 2026 Manitou Group. Document interne - Équipe Marketing & SEO.</p>
   </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const counters = document.querySelectorAll('.md-kpi-value[data-count]');
+      const speed = 200; // Vitesse de l'animation
+
+      counters.forEach(counter => {
+        const target = +counter.getAttribute('data-count');
+        
+        const updateCount = () => {
+          const count = +counter.innerText;
+          const inc = Math.ceil(target / speed);
+
+          if (count < target) {
+            counter.innerText = count + inc;
+            setTimeout(updateCount, 1);
+          } else {
+            counter.innerText = target;
+          }
+        };
+
+        updateCount();
+      });
+    });
+  </script>
 
 </body>
 </html>
