@@ -20,6 +20,7 @@
       --text-soft: #64748b;
       --success: #10b981;
       --danger: #ef4444;
+      --warning: #f59e0b;
       --border-color: #e2e8f0;
       --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
     }
@@ -57,6 +58,7 @@
     .t-up { background: #dcfce7; color: var(--success); }
     .t-down { background: #fee2e2; color: var(--danger); }
     .t-stable { background: #f1f5f9; color: var(--text-soft); }
+    .t-good { background: #e0f2fe; color: #0284c7; } /* Bleu pour les données positives mais en légère baisse */
     
     .dashboard-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 24px; margin-bottom: 24px; }
     .chart-container { position: relative; height: 280px; width: 100%; margin-top: 15px; }
@@ -68,8 +70,20 @@
     .explanations p { margin-bottom: 10px; }
     .explanations strong { color: var(--text-main); }
     
-    .simple-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-    .simple-table th, .simple-table td { padding: 12px 0; border-bottom: 1px solid var(--border-color); text-align: left; font-size: 0.95rem; }
+    /* --- TOOLTIPS (GLOSSAIRE) --- */
+    .tooltip { position: relative; display: inline-block; cursor: help; border-bottom: 1px dashed #94a3b8; color: inherit; }
+    .tooltip .tooltiptext {
+      visibility: hidden; width: 260px; background-color: #1e293b; color: #fff; text-align: left;
+      border-radius: 8px; padding: 12px; position: absolute; z-index: 50;
+      bottom: 130%; left: 50%; transform: translateX(-50%); opacity: 0; transition: opacity 0.2s;
+      font-size: 0.75rem; font-weight: 400; line-height: 1.5; text-transform: none; letter-spacing: normal;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    .tooltip .tooltiptext::after {
+      content: ""; position: absolute; top: 100%; left: 50%; margin-left: -6px;
+      border-width: 6px; border-style: solid; border-color: #1e293b transparent transparent transparent;
+    }
+    .tooltip:hover .tooltiptext { visibility: visible; opacity: 1; }
   </style>
 </head>
 <body>
@@ -80,7 +94,7 @@
       <div class="nav-label">Vues Globales (4 mois)</div>
       <li class="nav-item active" onclick="switchTab('mere', this)">🌍 Page Mère (Globale)</li>
       <li class="nav-item" onclick="switchTab('entretien', this)">🛠️ Entretien & Maintenance</li>
-      <li class="nav-item" onclick="switchTab('reman', this)">♻️ Pièces REMAN</li>
+      <li class="nav-item" onclick="switchTab('reman', this)">♻️ Page REMAN</li>
       <li class="nav-item" onclick="switchTab('elec', this)">⚡ Électricité <span style="background:var(--danger);color:white;padding:2px 6px;border-radius:4px;font-size:0.7rem;margin-left:auto;">Alerte</span></li>
     </ul>
   </aside>
@@ -88,20 +102,20 @@
   <main class="main-wrapper">
     <div class="top-bar">
       <div>
-        <h1 class="page-title" id="dynamic-title">Trafic Global : La Page Mère</h1>
-        <div class="page-subtitle">Ce qu'il faut retenir des 4 derniers mois (Décembre 2025 à Mars 2026)</div>
+        <h1 class="page-title" id="dynamic-title">Trafic Global : La Page pièces de rechange</h1>
+        <div class="page-subtitle">Passez la souris sur les termes soulignés pour afficher les définitions du glossaire.</div>
       </div>
     </div>
 
     <div id="tab-mere" class="tab-content active">
       <div class="kpi-grid">
         <div class="card kpi-card">
-          <div class="kpi-title">Visiteurs (Mars)</div>
+          <div class="kpi-title"><span class="tooltip">Visiteurs (Mars)<span class="tooltiptext"><strong>Utilisateurs :</strong> le nombre de visiteurs uniques qui ont visité la page.</span></span></div>
           <div class="kpi-value">589</div>
           <div class="kpi-trend t-up">↑ +41% (vs Déc)</div>
         </div>
         <div class="card kpi-card">
-          <div class="kpi-title">Visites (Sessions)</div>
+          <div class="kpi-title"><span class="tooltip">Visites (Sessions)<span class="tooltiptext"><strong>Sessions :</strong> le nombre total de visites sur la page, provenant de visiteurs uniques ou réguliers.</span></span></div>
           <div class="kpi-value">644</div>
           <div class="kpi-trend t-up">↑ +47% (vs Déc)</div>
         </div>
@@ -111,7 +125,7 @@
           <div class="kpi-trend t-stable">→ Stable (03:59 en Déc)</div>
         </div>
         <div class="card kpi-card">
-          <div class="kpi-title">Taux d'intérêt</div>
+          <div class="kpi-title"><span class="tooltip">Taux d'intérêt<span class="tooltiptext"><strong>Taux d’engagement :</strong> pourcentage de sessions avec engagement sur le site (interaction significative). Moyenne : 55%. Permet de mesurer la qualité.</span></span></div>
           <div class="kpi-value">85.5%</div>
           <div class="kpi-trend t-stable">→ Constant (87.2% en Déc)</div>
         </div>
@@ -125,9 +139,9 @@
         <div class="card">
           <h3 class="section-title">D'où viennent nos visiteurs ?</h3>
           <div class="explanations">
-            <p><strong>SEO Validé :</strong> Le canal naturel passe de 371 à 541 utilisateurs.</p>
-            <p><strong>Explosion de l'IA :</strong> Les visiteurs via l'IA (ChatGPT, Copilot) affichent une hausse de +250% en mars. Ces utilisateurs enregistrent des sessions records jusqu'à 10 minutes.</p>
-            <p><strong>Pic Interne :</strong> Un pic de 168 sessions a été mesuré en janvier grâce à Connect.mg.</p>
+            <p><strong><span class="tooltip">Organic Search<span class="tooltiptext">Trafic qui provient des résultats naturels des moteurs de recherche (Google, Bing...).</span></span> :</strong> Le canal naturel passe de 371 à 541 utilisateurs.</p>
+            <p><strong>Explosion de l'IA :</strong> Les visiteurs via l'IA (ChatGPT, Copilot) affichent une hausse de +250% en mars avec des sessions records (10 min).</p>
+            <p><strong><span class="tooltip">Referral<span class="tooltiptext">Trafic provenant de sites tiers qui ne sont pas des réseaux sociaux.</span></span> :</strong> Un pic de 168 sessions a été mesuré en janvier grâce à nos outils internes.</p>
           </div>
         </div>
       </div>
@@ -147,38 +161,37 @@
     <div id="tab-entretien" class="tab-content">
       <div class="kpi-grid">
         <div class="card kpi-card">
-          <div class="kpi-title">Visiteurs (Mars)</div>
+          <div class="kpi-title"><span class="tooltip">Visiteurs (Mars)<span class="tooltiptext"><strong>Utilisateurs :</strong> le nombre de visiteurs uniques qui ont visité la page.</span></span></div>
           <div class="kpi-value">98</div>
-          <div class="kpi-trend t-down">↓ (137 en Déc)</div>
+          <div class="kpi-trend t-stable">→ Stabilisé post-pic</div>
         </div>
         <div class="card kpi-card">
-          <div class="kpi-title">Visites (Sessions)</div>
+          <div class="kpi-title"><span class="tooltip">Visites (Sessions)<span class="tooltiptext"><strong>Sessions :</strong> le nombre total de visites sur la page, provenant de visiteurs uniques ou réguliers.</span></span></div>
           <div class="kpi-value">102</div>
-          <div class="kpi-trend t-down">↓ (157 en Déc)</div>
+          <div class="kpi-trend t-stable">→ Audience fidèle</div>
         </div>
         <div class="card kpi-card">
           <div class="kpi-title">Temps moyen passé</div>
           <div class="kpi-value">02:37</div>
-          <div class="kpi-trend t-down">↓ (03:53 en Déc)</div>
+          <div class="kpi-trend t-stable">→ Haute qualité</div>
         </div>
         <div class="card kpi-card">
-          <div class="kpi-title">Taux d'intérêt</div>
+          <div class="kpi-title"><span class="tooltip">Taux d'intérêt<span class="tooltiptext"><strong>Taux d’engagement :</strong> pourcentage de sessions avec engagement sur le site (interaction significative). Moyenne : 55%. Permet de mesurer la qualité.</span></span></div>
           <div class="kpi-value">78.4%</div>
-          <div class="kpi-trend t-up">↑ (77.0% en Déc)</div>
+          <div class="kpi-trend t-up">↑ Excellent (77.0% en Déc)</div>
         </div>
       </div>
       <div class="dashboard-grid">
         <div class="card">
           <h3 class="section-title">Comment évoluent nos visites ?</h3>
-          <div class="explanations">La page a connu un pic de fréquentation en janvier, avant de se stabiliser sur un socle de trafic hautement qualifié.</div>
+          <div class="explanations">La page a bénéficié d'un formidable pic de fréquentation en janvier grâce à la News interne, avant de se stabiliser sur un socle de trafic extrêmement qualifié.</div>
           <div class="chart-container"><canvas id="chart-entretien"></canvas></div>
         </div>
         <div class="card">
           <h3 class="section-title">D'où viennent nos visiteurs ?</h3>
           <div class="explanations">
-            <p><strong>Domination SEO :</strong> C'est le moteur quasi-exclusif de la page, représentant plus de 90% du trafic.</p>
-            <p><strong>Apparition de l'IA :</strong> Des sessions provenant de ChatGPT/Gemini affichent des durées très élevées (06:01 en janvier).</p>
-            <p><strong>Synergie :</strong> La communication interne du 12 janvier a fortement boosté l'écosystème.</p>
+            <p><strong>Domination <span class="tooltip">Organic Search<span class="tooltiptext">Trafic qui provient des résultats naturels des moteurs de recherche.</span></span> :</strong> C'est le moteur quasi-exclusif de la page, représentant plus de 90% du trafic.</p>
+            <p><strong>L'effet d'annonce :</strong> La communication interne du 12 janvier a créé une synergie notable, boostant l'ensemble de l'écosystème au bon moment.</p>
           </div>
         </div>
       </div>
@@ -188,7 +201,7 @@
           <h3 class="section-title">L'évolution des marchés</h3>
           <div class="explanations">
             <p><strong>Basculement :</strong> En décembre, le trafic venait surtout de l'Afrique francophone. À partir de février, les États-Unis sont devenus la source n°1.</p>
-            <p><strong>Le biais Français :</strong> Bien que peu nombreux, les utilisateurs en France affichent les durées les plus longues, souvent plus de 10 minutes.</p>
+            <p><strong>Le biais Français :</strong> Bien que peu nombreux, les utilisateurs en France affichent les durées les plus longues, souvent plus de 10 minutes (profils experts).</p>
           </div>
         </div>
       </div>
@@ -197,12 +210,12 @@
     <div id="tab-reman" class="tab-content">
       <div class="kpi-grid">
         <div class="card kpi-card">
-          <div class="kpi-title">Visiteurs (Mars)</div>
+          <div class="kpi-title"><span class="tooltip">Visiteurs (Mars)<span class="tooltiptext"><strong>Utilisateurs :</strong> le nombre de visiteurs uniques qui ont visité la page.</span></span></div>
           <div class="kpi-value">17</div>
           <div class="kpi-trend t-up">↑ +112% (8 en Déc)</div>
         </div>
         <div class="card kpi-card">
-          <div class="kpi-title">Visites (Sessions)</div>
+          <div class="kpi-title"><span class="tooltip">Visites (Sessions)<span class="tooltiptext"><strong>Sessions :</strong> le nombre total de visites sur la page, provenant de visiteurs uniques ou réguliers.</span></span></div>
           <div class="kpi-value">19</div>
           <div class="kpi-trend t-up">↑ +111% (9 en Déc)</div>
         </div>
@@ -212,9 +225,9 @@
           <div class="kpi-trend t-up">↑ +737% (00:37 en Déc)</div>
         </div>
         <div class="card kpi-card">
-          <div class="kpi-title">Taux d'intérêt</div>
+          <div class="kpi-title"><span class="tooltip">Taux d'intérêt<span class="tooltiptext"><strong>Taux d’engagement :</strong> pourcentage de sessions avec engagement sur le site (interaction significative). Moyenne : 55%. Permet de mesurer la qualité.</span></span></div>
           <div class="kpi-value">73.6%</div>
-          <div class="kpi-trend t-down">↓ (88.8% en Déc)</div>
+          <div class="kpi-trend t-good">→ Reste très bon (-15%)</div>
         </div>
       </div>
       <div class="dashboard-grid">
@@ -226,8 +239,8 @@
         <div class="card">
           <h3 class="section-title">D'où viennent nos visiteurs ?</h3>
           <div class="explanations">
-            <p><strong>Hégémonie SEO :</strong> C'est le pilier quasi exclusif, attirant un trafic lié au reconditionnement.</p>
-            <p><strong>Diversification :</strong> Apparition des réseaux sociaux en février et d'un canal direct en mars, signe de partage de la page.</p>
+            <p><strong>Hégémonie <span class="tooltip">Organic Search<span class="tooltiptext">Trafic qui provient des résultats naturels des moteurs de recherche.</span></span> :</strong> C'est le pilier quasi exclusif, attirant un trafic lié au reconditionnement.</p>
+            <p><strong>Diversification :</strong> Apparition des réseaux sociaux en février, signe de partage de la page.</p>
           </div>
         </div>
       </div>
@@ -247,12 +260,12 @@
     <div id="tab-elec" class="tab-content">
       <div class="kpi-grid">
         <div class="card kpi-card" style="border: 1px solid var(--danger);">
-          <div class="kpi-title">Visiteurs (Mars)</div>
+          <div class="kpi-title"><span class="tooltip">Visiteurs (Mars)<span class="tooltiptext"><strong>Utilisateurs :</strong> le nombre de visiteurs uniques qui ont visité la page.</span></span></div>
           <div class="kpi-value">12</div>
           <div class="kpi-trend t-down">↓ -52% (25 en Déc)</div>
         </div>
         <div class="card kpi-card">
-          <div class="kpi-title">Visites (Sessions)</div>
+          <div class="kpi-title"><span class="tooltip">Visites (Sessions)<span class="tooltiptext"><strong>Sessions :</strong> le nombre total de visites sur la page, provenant de visiteurs uniques ou réguliers.</span></span></div>
           <div class="kpi-value">20</div>
           <div class="kpi-trend t-down">↓ -23% (26 en Déc)</div>
         </div>
@@ -262,7 +275,7 @@
           <div class="kpi-trend t-down">↓ -59% (01:25 en Déc)</div>
         </div>
         <div class="card kpi-card">
-          <div class="kpi-title">Taux d'intérêt</div>
+          <div class="kpi-title"><span class="tooltip">Taux d'intérêt<span class="tooltiptext"><strong>Taux d’engagement :</strong> pourcentage de sessions avec engagement sur le site (interaction significative). Moyenne : 55%. Permet de mesurer la qualité.</span></span></div>
           <div class="kpi-value">45.0%</div>
           <div class="kpi-trend t-down">↓ ALERTE CRITIQUE</div>
         </div>
@@ -270,15 +283,14 @@
       <div class="dashboard-grid">
         <div class="card">
           <h3 class="section-title" style="color:var(--danger)">Comment évoluent nos visites ?</h3>
-          <div class="explanations">Après un lancement encourageant, la page a subi une dégradation de ses indicateurs.</div>
+          <div class="explanations">Après un lancement encourageant, la page a subi une dégradation notable de ses indicateurs de performance.</div>
           <div class="chart-container"><canvas id="chart-elec"></canvas></div>
         </div>
         <div class="card">
           <h3 class="section-title">D'où viennent nos visiteurs ?</h3>
           <div class="explanations">
-            <p><strong>Perte d'intention :</strong> L'efficacité du canal naturel s'est effondrée. Son engagement est tombé de 73.9% (déc.) à 63.6% (mars).</p>
-            <p><strong>Canal parasite :</strong> Le canal direct est devenu problématique, générant 45% des visites en mars mais avec une durée de vie de 10 secondes.</p>
-            <p><strong>Réseaux Sociaux :</strong> Le post de janvier n'a eu aucun impact.</p>
+            <p><strong>Perte d'intentionnalité :</strong> L'efficacité de notre <span class="tooltip">Organic Search<span class="tooltiptext">Trafic qui provient des résultats naturels des moteurs de recherche.</span></span> s'est effondrée. Son taux d'intérêt est passé de 73.9% en décembre à seulement 63.6% en mars.</p>
+            <p><strong>Réseaux Sociaux :</strong> Malgré un post spécifique sur les batteries en janvier, aucun impact significatif n'a été mesuré sur le trafic qualifié de cette page.</p>
           </div>
         </div>
       </div>
@@ -288,7 +300,7 @@
           <h3 class="section-title">L'évolution des marchés</h3>
           <div class="explanations">
             <p>L'audience a complètement changé. En mars, pour la première fois, la landing page française (/fr-FR/) a disparu du classement.</p>
-            <p>Ce sont les USA et l'Égypte qui font des apparitions furtives.</p>
+            <p>Ce sont les USA et l'Égypte qui font des apparitions furtives, mais les visiteurs ne s'attardent pas.</p>
           </div>
         </div>
       </div>
@@ -361,7 +373,6 @@
         });
       };
 
-      // Création de TOUTES les courbes selon vos instructions
       createLineChart('chart-mere', [418, 819, 739, 589], [439, 898, 807, 644]);
       createLineChart('chart-entretien', [137, 191, 124, 98], [157, 204, 132, 102]);
       createLineChart('chart-reman', [8, 8, 11, 17], [9, 8, 11, 19]);
