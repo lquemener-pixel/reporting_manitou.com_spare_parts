@@ -95,7 +95,7 @@
       <li class="nav-item active" onclick="switchTab('mere', this)">🌍 Page Pièces de Rechange</li>
       <li class="nav-item" onclick="switchTab('entretien', this)">🛠️ Entretien & Maintenance</li>
       <li class="nav-item" onclick="switchTab('reman', this)">♻️ Page REMAN</li>
-      <li class="nav-item" onclick="switchTab('elec', this)">⚡ Électricité <span style="background:var(--danger);color:white;padding:2px 6px;border-radius:4px;font-size:0.7rem;margin-left:auto;">Alerte</span></li>
+      <li class="nav-item" onclick="switchTab('elec', this)">⚡ Électricité</li>
     </ul>
   </aside>
 
@@ -259,38 +259,38 @@
 
     <div id="tab-elec" class="tab-content">
       <div class="kpi-grid">
-        <div class="card kpi-card" style="border: 1px solid var(--danger);">
+        <div class="card kpi-card">
           <div class="kpi-title"><span class="tooltip">Visiteurs (Mars)<span class="tooltiptext"><strong>Utilisateurs :</strong> le nombre de visiteurs uniques qui ont visité la page.</span></span></div>
           <div class="kpi-value">12</div>
-          <div class="kpi-trend t-down">↓ -52% (25 en Déc)</div>
+          <div class="kpi-trend t-good">↑ Hausse (vs <4 av. Déc)</div>
         </div>
         <div class="card kpi-card">
           <div class="kpi-title"><span class="tooltip">Visites (Sessions)<span class="tooltiptext"><strong>Sessions :</strong> le nombre total de visites sur la page, provenant de visiteurs uniques ou réguliers.</span></span></div>
           <div class="kpi-value">20</div>
-          <div class="kpi-trend t-down">↓ -23% (26 en Déc)</div>
+          <div class="kpi-trend t-good">↑ Trafic pérennisé</div>
         </div>
         <div class="card kpi-card">
           <div class="kpi-title">Temps moyen passé</div>
           <div class="kpi-value">00:35</div>
-          <div class="kpi-trend t-down">↓ -59% (01:25 en Déc)</div>
+          <div class="kpi-trend t-stable">→ Navigation ciblée</div>
         </div>
         <div class="card kpi-card">
           <div class="kpi-title"><span class="tooltip">Taux d'intérêt<span class="tooltiptext"><strong>Taux d’engagement :</strong> pourcentage de sessions avec engagement sur le site (interaction significative). Moyenne : 55%. Permet de mesurer la qualité.</span></span></div>
           <div class="kpi-value">45.0%</div>
-          <div class="kpi-trend t-down">↓ ALERTE CRITIQUE</div>
+          <div class="kpi-trend t-stable">→ En consolidation</div>
         </div>
       </div>
       <div class="dashboard-grid">
         <div class="card">
-          <h3 class="section-title" style="color:var(--danger)">Comment évoluent nos visites ?</h3>
-          <div class="explanations">Après un lancement encourageant, la page a subi une dégradation notable de ses indicateurs de performance.</div>
+          <h3 class="section-title">Comment évoluent nos visites ?</h3>
+          <div class="explanations">Avant notre intervention, cette page plafonnait à 1 ou 4 visites par mois. Le travail de décembre a permis un vrai bond en avant de la visibilité, et le trafic se stabilise aujourd'hui à une volumétrie bien supérieure.</div>
           <div class="chart-container"><canvas id="chart-elec"></canvas></div>
         </div>
         <div class="card">
           <h3 class="section-title">D'où viennent nos visiteurs ?</h3>
           <div class="explanations">
-            <p><strong>Perte d'intentionnalité :</strong> L'efficacité de notre <span class="tooltip">Organic Search<span class="tooltiptext">Trafic qui provient des résultats naturels des moteurs de recherche.</span></span> s'est effondrée. Son taux d'intérêt est passé de 73.9% en décembre à seulement 63.6% en mars.</p>
-            <p><strong>Réseaux Sociaux :</strong> Malgré un post spécifique sur les batteries en janvier, aucun impact significatif n'a été mesuré sur le trafic qualifié de cette page.</p>
+            <p><strong>Un trafic naturel installé :</strong> L'<span class="tooltip">Organic Search<span class="tooltiptext">Trafic qui provient des résultats naturels des moteurs de recherche.</span></span> reste la source d'acquisition principale, attirant un public régulier qui ne trouvait pas la page auparavant.</p>
+            <p><strong>Comportement sur la page :</strong> Le taux d'intérêt s'établit à 45%. Les visiteurs naviguent rapidement, ce qui peut indiquer qu'ils trouvent instantanément l'information cherchée ou qu'une optimisation ergonomique est encore possible.</p>
           </div>
         </div>
       </div>
@@ -299,8 +299,8 @@
         <div class="card">
           <h3 class="section-title">L'évolution des marchés</h3>
           <div class="explanations">
-            <p>L'audience a complètement changé. En mars, pour la première fois, la landing page française (/fr-FR/) a disparu du classement.</p>
-            <p>Ce sont les USA et l'Égypte qui font des apparitions furtives, mais les visiteurs ne s'attardent pas.</p>
+            <p>Le profil géographique est en mutation. En mars, les USA et l'Égypte font leur apparition en tête de classement.</p>
+            <p>Cette ouverture internationale démontre que nos contenus commencent à se positionner sur de nouveaux marchés techniques.</p>
           </div>
         </div>
       </div>
@@ -321,7 +321,7 @@
       'mere': "Trafic global : page mère pièces de rechange",
       'entretien': "La page entretien & maintenance",
       'reman': "La page REMAN",
-      'elec': "ALERTE : La page électricité"
+      'elec': "La page électricité"
     };
 
     function switchTab(tabId, element) {
@@ -329,7 +329,8 @@
       element.classList.add('active');
       
       document.getElementById('dynamic-title').innerText = titles[tabId];
-      document.getElementById('dynamic-title').style.color = (tabId === 'elec') ? 'var(--danger)' : 'var(--text-main)';
+      // On garde désormais la couleur neutre pour tous les titres
+      document.getElementById('dynamic-title').style.color = 'var(--text-main)';
       
       document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
       document.getElementById('tab-' + tabId).classList.add('active');
